@@ -4,7 +4,6 @@ from aiogram import Bot, Dispatcher, types
 from openai import OpenAI
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker
-import openai
 
 # Настройте логи
 logging.basicConfig(level=logging.INFO)
@@ -56,7 +55,8 @@ def nl_to_sql(user_query: str) -> str:
 
     Запросы на русском языке. Даты могут быть в формате '28 ноября 2025' — преобразуй в '2025-11-28'.
     Используй TO_DATE для дат, например TO_DATE('28 ноября 2025', 'DD Month YYYY') но учти русский язык (ноября -> november, etc., или используй strftime).
-    Для интервалов используй BETWEEN.
+    Для интервалов используй пары неравенств, обращая внимание на включение или невключение границ.
+    Не используй инструкцию BETWEEN для интервалов.
     Возвращай ТОЛЬКО SQL-запрос, который возвращает ОДНО число (используй COUNT, SUM, etc.).
     Не добавляй объяснения, форматирование или ';'.
     Примеры:
